@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
+import threading
 
 picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
 libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
@@ -17,7 +18,7 @@ logging.basicConfig(level=logging.DEBUG)
 debug = True
 
 if debug:
-    pass
+    import cup
 else:
     import cake
 
@@ -97,6 +98,7 @@ def on_message(client, userdata, message):
 
         if debug:
             Himage.save('output.png')
+            cup.update()
         else:
             cake.update()
 
@@ -113,7 +115,8 @@ try:
     logging.info("init and Clear")
 
     if debug:
-        pass
+        th = threading.Thread(target=cup.start)
+        th.start()
     else:
         cake.start()
 
@@ -148,7 +151,7 @@ except IOError as e:
 except KeyboardInterrupt:
     logging.info("ctrl + c:")
     if debug:
-        pass
+        cup.stop()
     else:
         cake.stop()
     exit()

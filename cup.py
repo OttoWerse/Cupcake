@@ -2,24 +2,28 @@
 import pygame
 from pygame.locals import *
 
-# Initialization
-pygame.init()
-
-# Display
 size_x = 800
 size_y = 480
 size = (size_x, size_y)
-screen = pygame.display.set_mode(size)
-pygame.display.set_caption('E-Paper Emulator v 0.1')
 
 
 def start():
+    # Initialization
+    pygame.init()
+
+    # Display
+    screen = pygame.display.set_mode(size)
+    pygame.display.set_caption('Cup v0.1')
+
+    update()
+
     # Program escape variable
     keepGoing = True
     # New clock
     clock = pygame.time.Clock()
     # Initialize update loop
     pygame.time.set_timer(USEREVENT, 200)
+
     # Loop
     while keepGoing:
         # Timer
@@ -33,7 +37,7 @@ def start():
                 break
 
         # Refresh
-        update()
+        # update()
         pygame.display.flip()
 
         # Update Screen
@@ -53,5 +57,4 @@ def stop():
 
 
 if __name__ == '__main__':
-    update()
     start()
