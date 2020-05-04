@@ -2,17 +2,19 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
-import logging
-from waveshare_epd import epd7in5_V2
-import time
-from PIL import Image, ImageDraw, ImageFont
-import paho.mqtt.client as mqtt
-import traceback
 
 picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
 libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
 if os.path.exists(libdir):
     sys.path.append(libdir)
+
+import logging
+from waveshare_epd import epd7in5_V2
+import time
+from PIL import Image, ImageDraw, ImageFont
+
+import paho.mqtt.client as mqtt
+import traceback
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -28,7 +30,7 @@ def on_message(client, userdata, message):
     draw = ImageDraw.Draw(Himage)
     draw.text((10, 0), str, font=font24, fill=0)
     epd.display(epd.getbuffer(Himage))
-    time.sleep(2)
+    time.sleep(0)
 
 
 # Create function for publishing callback
@@ -45,7 +47,7 @@ try:
     epd.init()
     epd.Clear()
 
-    font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
+    font24 = ImageFont.truetype(os.path.join(picdir, 'consola.ttf'), 24)
     font18 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 18)
 
     # MQTT broker Settings
