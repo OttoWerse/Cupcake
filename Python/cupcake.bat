@@ -1,0 +1,1 @@
+screen sudo python3 /home/pi/Desktop/Cupcake/Python/cupcake.py

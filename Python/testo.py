@@ -18,9 +18,9 @@ logging.basicConfig(level=logging.DEBUG)
 debug = True
 
 if debug:
-    import cup
+    pass
 else:
-    import cake
+    from Python import cake, cup
 
 txt1 = None
 txt2 = None
@@ -95,11 +95,23 @@ def on_message(client, userdata, message):
         # Drawing on the Horizontal image
         logging.info('Refreshing...')
         Himage = Image.new('1', (width, height), 255)  # 255: clear the frame
-        draw = ImageDraw.Draw(Himage)
-        draw.text((margin_left + 0, (margin_top + 0 * (font_size + spacing))), txt1, font=consolas, fill=0)
-        draw.text((margin_left + 0, (margin_top + 1 * (font_size + spacing))), txt2, font=consolas, fill=0)
-        draw.text((margin_left + 0, (margin_top + 2 * (font_size + spacing))), txt3, font=consolas, fill=0)
-        draw.text((margin_left + 0, (margin_top + 3 * (font_size + spacing))), txt4, font=consolas, fill=0)
+
+        icon = Image.open('Format2.png')
+        iconDraw = ImageDraw.Draw(icon)
+        iconDraw.text((0,0), 'Hello World', font=consolas, fill=0)
+
+        icon2 = Image.open('Format2.png')
+        iconDraw2 = ImageDraw.Draw(icon2)
+        iconDraw2.text((0,0), 'Hello World', font=consolas, fill=0)
+
+        Himage.paste(icon, (0, 0))
+        Himage.paste(icon2, (100, 100))
+
+        # draw = ImageDraw.Draw(Himage)
+        # draw.text((margin_left + 0, (margin_top + 0 * (font_size + spacing))), txt1, font=consolas, fill=0)
+        # draw.text((margin_left + 0, (margin_top + 1 * (font_size + spacing))), txt2, font=consolas, fill=0)
+        # draw.text((margin_left + 0, (margin_top + 2 * (font_size + spacing))), txt3, font=consolas, fill=0)
+        # draw.text((margin_left + 0, (margin_top + 3 * (font_size + spacing))), txt4, font=consolas, fill=0)
 
         if debug:
             Himage.save('output.png')

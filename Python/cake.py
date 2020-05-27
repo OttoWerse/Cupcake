@@ -18,4 +18,4 @@ def update(Himage):
 
 def stop():
     logging.info("the cake is a lie!")
-    epd7in5.epdconfig.module_exit()
+    epd7in5_V2.epdconfig.module_exit()
