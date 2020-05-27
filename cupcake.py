@@ -27,12 +27,17 @@ txt2 = None
 txt3 = None
 txt4 = None
 
+img1 = None
+img2 = None
+img3 = None
+img4 = None
+
 margin_top = 10
 margin_bottom = 10
 margin_left = 10
 margin_right = 10
 
-font_size = 48
+font_size = 64
 spacing = 4
 
 width = 800
@@ -100,7 +105,7 @@ def on_message(client, userdata, message):
             Himage.save('output.png')
             cup.update()
         else:
-            cake.update()
+            cake.update(Himage)
 
         logging.info('Done!')
 
@@ -123,11 +128,14 @@ try:
     consolas = ImageFont.truetype(os.path.join(picdir, 'consola.ttf'), font_size)
 
     # MQTT broker Settings
-    broker = "192.169.4.5"
+    broker = "192.169.0.203"
     port = 1883
 
     # Create MQTT client
-    client = mqtt.Client("Cupcake4")
+    if debug:
+        client = mqtt.Client("Cupcake-Debug")
+    else:
+        client = mqtt.Client("Cupcake")
 
     # Assign on methods
     client.on_publish = on_publish
