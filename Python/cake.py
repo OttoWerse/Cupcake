@@ -5,17 +5,26 @@ epd = epd7in5_V2.EPD()
 
 
 def start():
-    logging.info("the dough is mixed!")
+    logging.info("Init")
     epd.init()
+    logging.info("Clear")
     epd.Clear()
+    logging.info("Going to Sleep")
+    epd.sleep()
+    logging.info("Sleeping")
 
 
 def update(Himage):
-    logging.info("going in the oven...")
+    logging.info("Init")
+    epd.init()
+    logging.info("Displaying")
     epd.display(epd.getbuffer(Himage))
-    logging.info("...done!")
+    logging.info("Going to Sleep")
+    epd.sleep()
+    logging.info("Sleeping")
 
 
 def stop():
-    logging.info("the cake is a lie!")
+    logging.info("Exiting")
     epd7in5_V2.epdconfig.module_exit()
+    logging.info("Exited")

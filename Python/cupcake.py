@@ -4,9 +4,9 @@ import os
 import sys
 import threading
 
-assdir = os.path.join(os.path.dirname(os.getcwd()), "Assets")
-libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
-print(libdir)
+curdir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+assdir = os.path.join(curdir, "Assets")
+libdir = os.path.join(curdir, 'lib')
 if os.path.exists(libdir):
     sys.path.append(libdir)
 
@@ -14,9 +14,9 @@ import logging
 from PIL import Image, ImageDraw, ImageFont
 import paho.mqtt.client as mqtt
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
-debug = True
+debug = False
 
 if debug:
     import cup
@@ -126,12 +126,11 @@ def on_message(client, userdata, message):
     for x in topics:
         if topics[x]['txt'] == None:
             missing = True
-            logging.info(f'Missing : {x}')
+            logging.debug(f'Missing : {x}')
 
     if (missing):
         logging.info('Waiting for Topics')
     else:
-        # Drawing on the Horizontal image
         logging.info('Refreshing...')
         Himage = Image.new('1',
                            (
@@ -214,9 +213,12 @@ try:
     else:
         cake.start()
 
+    logging.debug("Loading Fonts")
     consolas = ImageFont.truetype(os.path.join(assdir, 'consola.ttf'), font_size)
+    logging.debug("Done!")
 
     # MQTT broker Settings
+    logging.debug("Starting MQTT")
     broker = "192.169.0.203"
     port = 1883
 
@@ -232,16 +234,19 @@ try:
 
     # Connect to broker
     client.connect(broker, port)
+    logging.debug("Done!")
 
     # Subscribe to Topics
+    logging.debug("Subscribing Topics")
     for x in topics:
         client.subscribe(x)
+    logging.debug("Done!")
 
     # Loop
     client.loop_forever()
 
 except IOError as e:
-    logging.info(e)
+    logging.error(e)
 
 except KeyboardInterrupt:
     logging.info("ctrl + c:")
