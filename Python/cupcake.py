@@ -16,7 +16,7 @@ import paho.mqtt.client as mqtt
 
 logging.basicConfig(level=logging.INFO)
 
-debug = False
+debug = True
 
 if debug:
     import cup
@@ -71,7 +71,7 @@ topics = {
             'txt': 'Wach',
             'img': 'sleep-off.png'},
     },
-    f'presence/residents/{person}/in-bed/out': {
+    f'presence/residents/{person}/inbed/out': {
         'position': {
             'horizontal': 2,
             'vertical': 0, },
@@ -84,9 +84,22 @@ topics = {
             'txt': 'Aufgestanden',
             'img': 'bed-off.png'},
     },
-    f'heating/{room}/window-state/out': {
+    f'presence/residents/{person}/donotdisturb/out': {
         'position': {
             'horizontal': 0,
+            'vertical': 1, },
+        'txt': None,
+        'img': None,
+        'true': {
+            'txt': 'Nicht Stören!',
+            'img': 'do-not-disturb.png'},
+        'false': {
+            'txt': 'Bitte Klopfen!',
+            'img': 'check-circle.png'},
+    },
+    f'heating/{room}/window-state/out': {
+        'position': {
+            'horizontal': 1,
             'vertical': 1, },
         'txt': None,
         'img': None,
@@ -105,7 +118,7 @@ topics = {
 
 # Create function for receiving messages
 def on_message(client, userdata, message):
-    logging.info('MQTT Received')
+    logging.info(f'MQTT Received on {message.topic}: {message.payload}')
 
     # Import Global
     global topics
@@ -239,6 +252,7 @@ try:
     # Subscribe to Topics
     logging.debug("Subscribing Topics")
     for x in topics:
+        logging.info(f'subscribing to {x}')
         client.subscribe(x)
     logging.debug("Done!")
 
